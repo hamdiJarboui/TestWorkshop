@@ -32,6 +32,8 @@ the sequence test asserts *invariants* (`ACTIVE ⇔ target is set`, throttle is 
 so it can run over every sequence with no oracle for each one. `test_integral_does_not_wind_up…` is a deliberate **white-box** check.
 
 ## Exercises — `exercise_lab06.py`
+*Run:* `python course.py exercise 6` — the tests start red (most with a `todo(...)` line: delete it when you start on that test). Hints are in each test's docstring; read them one at a time.
+
 28-row transition table · "overtaking" scenario in Given/When/Then with the plant model · a design question (`resume` above max).
 
 ## Debrief

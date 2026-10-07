@@ -34,7 +34,7 @@ def normalise_pressure(kpa: float, temp_c: float) -> float:
 
 def classify(kpa: float, temp_c: float, nominal: float = NOMINAL_KPA) -> TyreStatus:
     if not 0 <= kpa <= 700 or not -40 <= temp_c <= 125:
-        raise ValueError("reading out of sensor range")
+        raise ValueError(f"reading out of sensor range: {kpa} kPa (0..700), {temp_c} degC (-40..125)")
     p20 = normalise_pressure(kpa, temp_c)
     if p20 < 0.6 * nominal:
         return TyreStatus.CRITICAL

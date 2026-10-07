@@ -1,6 +1,9 @@
 """Capstone starter - replace/extend with YOUR test suite for autotest.tpms.
 
-Read capstone/README.md first. Grade yourself with:  python capstone/grade.py
+  1. Read capstone/README.md (the specification S1..S9) and Chapter 17 (the recipe).
+  2. Write tests here (split into more files if you like). They must PASS on the correct code.
+  3. Grade yourself:   python course.py capstone     (injects 17 hidden defects, one at a time)
+     The grader tells you the SYMPTOM of every defect you missed - use it to find the test you forgot.
 """
 import pytest
 

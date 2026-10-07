@@ -3,7 +3,6 @@ from unittest import mock
 
 import pytest
 
-from autotest.bus import VirtualCANBus
 from autotest.ecu import InstrumentCluster, WheelSpeedECU
 from autotest.sensors import TemperatureSensor
 

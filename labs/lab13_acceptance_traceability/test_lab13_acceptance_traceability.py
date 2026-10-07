@@ -16,7 +16,7 @@ import pytest
 from autotest.bms import BatteryManagementSystem, BMSFault
 from autotest.can import CANFrame
 from autotest.diagnostics import DiagnosticManager
-from autotest.sensors import SensorFault, TemperatureSensor
+from autotest.sensors import TemperatureSensor
 
 ROOT = Path(__file__).resolve().parents[2]
 REQUIREMENTS = {row["id"]: row for row in csv.DictReader((ROOT / "docs" / "requirements.csv").open())}

@@ -30,7 +30,7 @@ Each lab below is preceded by its lecture chapter (Chapters 4–16 pair with Lab
 
 | Day | Morning (3.5 h) | Afternoon (3.5 h) |
 |-----|----------------|-------------------|
-| 1 | Chapters 1–3 foundations (1.5 h) · Ch. 4 + **Lab 1** unittest | Ch. 5 + **Lab 2** pytest |
+| 1 | **Lab 0** setup (30 min) · Chapters 1–3 foundations (1.5 h) · Ch. 4 + **Lab 1** unittest | Ch. 5 + **Lab 2** pytest |
 | 2 | **Lab 3** black-box design | **Lab 4** doubles · start **Lab 5** |
 | 3 | Finish **Lab 5** integration · **Lab 6** state machines | **Lab 7** property-based |
 | 4 | **Lab 8** robustness · **Lab 9** regression | **Lab 10** performance (short) · **Lab 11** SIL |
@@ -40,6 +40,7 @@ Each lab below is preceded by its lecture chapter (Chapters 4–16 pair with Lab
 W1 L1 · W2 L2 · W3 L3 · W4 L4+L5 (part) · W5 L5+L6 · W6 L7 · W7 L8 · W8 L9+L10 · W9 L11+L12 · W10 L13 + capstone review. Capstone is homework from W7.
 
 ## 4. Pedagogy
+0a. **Exercises are scaffolded.** Every exercise test starts with `todo("...")` (from `autotest.learn`), so it fails with a readable message until the learner starts; docstrings carry a *hint ladder* (hint 1 = nudge, last hint may spoil). `python course.py progress` shows per-lab completion, so learners and instructors see progress without reading code. Lab 8 Exercise 1 and Lab 12 are deliberately different: they ask the learner to fix real code / kill real mutants.
 0. **Lecture, then lab.** Each lab is preceded by a lecture chapter (`course/`, 30–60 min of reading or teaching) that explains the concepts, techniques and automotive background; Chapters 1–3 are foundations (testing vocabulary, the landscape of test types/levels, an automotive primer). Every code example in the lectures is executed by `tools/check_course_code.py`, so the text cannot drift from the code.
 1. **One system under test for the whole course.** Learners meet the same library again and again, so effort goes into *testing technique*, not into learning new code. Later labs build on earlier ones (Lab 3's suite is the input of Lab 12's mutation run; Lab 9's replay exposes a defect that integration tests in Lab 5 missed).
 2. **Worked example → break it → exercise → debrief.** Every worked test file is commented teaching material; every lab README has a "Try this" mutation to build the intuition that *a test is only as good as the defect it would catch*.

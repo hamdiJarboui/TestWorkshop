@@ -7,7 +7,7 @@ import pytest
 
 from autotest.can import CANFrame
 from autotest.ecu import (
-    DTC_COMM_LOST, DTC_E2E_FAIL, WHEEL_SPEED_MSG, InstrumentCluster, WheelSpeedECU,
+    DTC_COMM_LOST, DTC_E2E_FAIL, InstrumentCluster, WheelSpeedECU,
 )
 
 pytestmark = pytest.mark.integration

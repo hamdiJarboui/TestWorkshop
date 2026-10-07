@@ -1,5 +1,4 @@
 """Solutions - Lab 7 (property-based)."""
-import pytest
 from hypothesis import given, strategies as st
 
 from autotest.abs import slip_ratio

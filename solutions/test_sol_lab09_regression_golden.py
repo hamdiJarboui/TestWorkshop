@@ -1,7 +1,6 @@
 """Solutions - Lab 9 (regression / golden)."""
 import pytest
 
-from autotest.bus import VirtualCANBus
 from autotest.can import CANFrame, e2e_protect
 from autotest.diagnostics import DiagnosticManager
 from autotest.ecu import WHEEL_SPEED_MSG, InstrumentCluster

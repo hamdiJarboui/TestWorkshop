@@ -35,6 +35,8 @@ pytest labs/lab08_robustness -v -rx
 ```
 
 ## Exercises — `exercise_lab08.py`
+*Run:* `python course.py exercise 8` — the tests start red (most with a `todo(...)` line: delete it when you start on that test). Hints are in each test's docstring; read them one at a time.
+
 Fix BUG-201/202 and clean up the markers · TDD a "stuck sensor" plausibility check · model a 5-frame burst loss and show recovery.
 
 ## Debrief

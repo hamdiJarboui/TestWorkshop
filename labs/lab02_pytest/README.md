@@ -33,6 +33,8 @@ Note `battery` fixture: its teardown asserts an **invariant** (SOC in 0..100) af
 **Try this:** make one parametrized row wrong. Compare pytest's failure output to Lab 1's.
 
 ## Exercises — `exercise_lab02.py`
+*Run:* `python course.py exercise 2` — the tests start red (most with a `todo(...)` line: delete it when you start on that test). Hints are in each test's docstring; read them one at a time.
+
 1. Collapse two copy-pasted tests into one parametrized test.
 2. Write a *factory fixture* (`sensor_factory`) and test the moving-average filter.
 3. `parametrize` with `pytest.param(..., id=..., marks=xfail)` for charge current by SOC.

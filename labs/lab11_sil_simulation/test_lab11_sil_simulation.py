@@ -5,7 +5,7 @@ Open-loop unit tests say "the function returns 0.7". Closed-loop tests say "the 
 """
 import pytest
 
-from autotest.abs import ABSController, Valve, QuarterCar, simulate_braking, slip_ratio, tyre_mu
+from autotest.abs import ABSController, Valve, simulate_braking, tyre_mu
 from autotest.cruise import CruiseController, CruiseState
 from autotest.vehicle import Vehicle, run_cruise
 

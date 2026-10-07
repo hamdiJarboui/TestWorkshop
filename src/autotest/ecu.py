@@ -1,4 +1,10 @@
-"""Two cooperating ECUs: a wheel-speed sender and an instrument cluster receiver."""
+"""Two cooperating ECUs: a wheel-speed sender and an instrument cluster receiver.
+
+On the wire a wheel-speed frame (id 0x1A0) is 5 bytes:
+
+    byte 0     byte 1          bytes 2-4
+    CRC-8      alive counter   payload: speed (16 bit, 0.01 km/h) + valid flag (1 bit)
+"""
 from __future__ import annotations
 
 from .bus import VirtualCANBus
@@ -62,6 +68,11 @@ class InstrumentCluster:
         self._expected_counter = (frame.data[1] + 1) & 0x0F
 
     def displayed_speed(self) -> str:
+        """What the driver sees: the speed, or "--" when it is unknown or stale.
+
+        Call this once per display cycle. It also *supervises* the bus: every call checks the
+        100 ms timeout and reports the result to diagnostics, so it is not a pure getter.
+        """
         if self.clock.now() - self._last_rx > self.TIMEOUT_S:
             self.diag.report(DTC_COMM_LOST, failed=True)
             return "--"

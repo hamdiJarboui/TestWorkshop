@@ -34,7 +34,7 @@ SUBTITLE = "unittest, pytest and automotive software — lectures, labs and a ca
 PARTS = [
     ("Part I — Foundations", [("lecture", 1, "lecture_01_why_we_test"), ("lecture", 2, "lecture_02_testing_landscape"),
                                ("lecture", 3, "lecture_03_automotive_primer")]),
-    ("Part II — The tools: unittest and pytest", [("lecture", 4, "lecture_04_unittest"), ("lab", 1),
+    ("Part II — The tools: unittest and pytest", [("lab", 0), ("lecture", 4, "lecture_04_unittest"), ("lab", 1),
                                                  ("lecture", 5, "lecture_05_pytest"), ("lab", 2)]),
     ("Part III — Test design and isolation", [("lecture", 6, "lecture_06_test_design"), ("lab", 3),
                                               ("lecture", 7, "lecture_07_test_doubles"), ("lab", 4)]),

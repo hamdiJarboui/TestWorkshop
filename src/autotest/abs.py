@@ -1,4 +1,8 @@
-"""ABS slip controller and a quarter-car plant for software-in-the-loop tests."""
+"""ABS slip controller and a quarter-car plant for software-in-the-loop tests.
+
+The plant is ONE wheel carrying a quarter of the car. Speeds are in m/s, force in N,
+torque in Nm, pressure is a fraction 0..1 of the maximum brake pressure.
+"""
 from __future__ import annotations
 
 import enum
@@ -8,6 +12,8 @@ G = 9.81
 
 
 class Valve(enum.Enum):
+    """What the hydraulic modulator does to the brake pressure."""
+
     APPLY = "apply"
     HOLD = "hold"
     RELEASE = "release"
@@ -21,6 +27,8 @@ def slip_ratio(vehicle_ms: float, wheel_ms: float) -> float:
 
 
 class ABSController:
+    """Three-state bang-bang slip controller with a hysteresis band between the two limits."""
+
     RELEASE_ABOVE = 0.25
     APPLY_BELOW = 0.15
     MIN_ACTIVE_SPEED = 5.0  # m/s - ABS is disabled below this
@@ -55,21 +63,34 @@ class QuarterCar:
     max_brake_torque: float = 2000.0
 
     def step(self, dt: float, valve: Valve) -> None:
+        """Advance the physics by `dt` seconds (explicit Euler) under the valve command."""
+        # 1. Hydraulics: the valve changes brake pressure at a fixed rate (per second).
         rate = {Valve.APPLY: 10.0, Valve.HOLD: 0.0, Valve.RELEASE: -40.0}[valve]
         self.pressure = min(1.0, max(0.0, self.pressure + rate * dt))
+
+        # 2. Tyre: slip decides how much of the normal force becomes braking force.
         mu = tyre_mu(slip_ratio(self.speed_ms, self.wheel_ms))
-        force = mu * self.mass * G
-        wheel_omega = self.wheel_ms / self.radius
+        force = mu * self.mass * G                                   # N, decelerates the car
+
+        # 3. Wheel: the road force spins the wheel UP, the brake torque slows it DOWN.
+        wheel_omega = self.wheel_ms / self.radius                    # rad/s
         brake_torque = self.pressure * self.max_brake_torque if wheel_omega > 0 else 0.0
-        wheel_omega = max(0.0, wheel_omega + (force * self.radius - brake_torque) / self.inertia * dt)
+        wheel_omega += (force * self.radius - brake_torque) / self.inertia * dt
+        wheel_omega = max(0.0, wheel_omega)                          # a wheel cannot spin backwards here
         if self.speed_ms <= 0.5 and wheel_omega * self.radius > self.speed_ms:
-            wheel_omega = self.speed_ms / self.radius
+            wheel_omega = self.speed_ms / self.radius                # standing car: wheel cannot outrun it
         self.wheel_ms = wheel_omega * self.radius
+
+        # 4. Vehicle: integrate speed and distance.
         self.speed_ms = max(0.0, self.speed_ms - force / self.mass * dt)
         self.distance_m += self.speed_ms * dt
 
 
 def simulate_braking(use_abs: bool, dt: float = 0.001, t_max: float = 15.0) -> dict:
+    """Brake from ~100 km/h to a stop. Returns distance_m, time_s, peak_slip, locked_s.
+
+    peak_slip and locked_s are only measured while ABS is allowed to act (speed >= 5 m/s).
+    """
     car, ctrl = QuarterCar(), ABSController()
     t, peak_slip, locked_time = 0.0, 0.0, 0.0
     while car.speed_ms > 0.5 and t < t_max:

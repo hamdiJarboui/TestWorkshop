@@ -29,6 +29,8 @@ pytest labs/lab13_acceptance_traceability --hil           # BenchADC raises: sho
 ```
 
 ## Exercises — `exercise_lab13.py`
+*Run:* `python course.py exercise 13` — the tests start red (most with a `todo(...)` line: delete it when you start on that test). Hints are in each test's docstring; read them one at a time.
+
 1. **Requirements-driven development:** `REQ-TPMS-001/002` exist in the CSV but (without `solutions/`) nothing verifies them: the meta-test is red → write the tests → green.
 2. An acceptance scenario for the dashboard during acceleration.
 3. A second switchable back-end (`virtual` vs `pcan`) for the CAN tests.

@@ -52,3 +52,11 @@ Prefer **state/outcome** assertions over interaction assertions; mock only what 
 * Determinism: inject clocks and RNG seeds; no `sleep`, no network, no shared state.
 * Every defect fixed gets a regression test **first** (red → green).
 * Tests are code: review them, refactor them, delete the ones that no longer protect anything.
+
+## The course runner
+
+```bash
+python course.py doctor | labs | progress | test | smoke | coverage | mutation | capstone | check-course | pdf
+python course.py lab N          # worked examples of lab N (verbose)
+python course.py exercise N     # your exercises of lab N
+```

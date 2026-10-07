@@ -43,6 +43,8 @@ Parses the target with `ast`, enumerates mutation sites (comparison/arithmetic/b
 rewrites one site at a time in a scratch copy of the project, runs pytest, and counts a mutant as *killed* if the run fails.
 
 ## Exercises — `exercise_lab12.py` (terminal work)
+*Run:* `python course.py exercise 12` — the tests start red (most with a `todo(...)` line: delete it when you start on that test). Hints are in each test's docstring; read them one at a time.
+
 Find the lowest-branch-coverage module · classify survivors of `CruiseController.control` (state-machine suite: 8/12; + SIL suite: 10/12 — which exact PI arithmetic is still unchecked?) · write one test that kills the most
 survivors in `DiagnosticManager.report` · argue why 100 % mutation score is not a sensible CI gate.
 

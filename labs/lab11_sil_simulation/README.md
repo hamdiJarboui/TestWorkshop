@@ -35,6 +35,8 @@ pytest -m sil
 * Determinism test: fixed-step simulation ⇒ identical results every run (a prerequisite for regression testing).
 
 ## Exercises — `exercise_lab11.py`
+*Run:* `python course.py exercise 11` — the tests start red (most with a `todo(...)` line: delete it when you start on that test). Hints are in each test's docstring; read them one at a time.
+
 8 % hill criteria (default tuning **fails** — find gains that pass) · ABS on ice · a 5 km/h biased speed sensor (what happens, what would detect it?).
 
 ## Debrief

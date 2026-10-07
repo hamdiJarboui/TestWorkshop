@@ -24,7 +24,7 @@ class DiagnosticManager:
 
     def __init__(self, fail_threshold: int = 3, heal_threshold: int = 5):
         if fail_threshold < 1 or heal_threshold < 1:
-            raise ValueError("thresholds must be >= 1")
+            raise ValueError(f"thresholds must be >= 1, got fail={fail_threshold}, heal={heal_threshold}")
         self.fail_threshold = fail_threshold
         self.heal_threshold = heal_threshold
         self._dtcs: dict[str, _DTC] = {}
@@ -35,6 +35,7 @@ class DiagnosticManager:
             raise ValueError(f"malformed DTC {code!r}")
 
     def report(self, code: str, failed: bool) -> None:
+        """Feed one monitoring cycle: `failed=True` if the monitor saw the fault in this cycle."""
         self._validate(code)
         d = self._dtcs.setdefault(code, _DTC())
         if failed:
@@ -45,6 +46,11 @@ class DiagnosticManager:
             d.pass_count, d.fail_count = d.pass_count + 1, 0
             if d.pass_count >= self.heal_threshold:
                 d.active = False
+
+    def failure_count(self, code: str) -> int:
+        """Current streak of consecutive failed cycles for `code` (0 if never reported)."""
+        d = self._dtcs.get(code)
+        return d.fail_count if d else 0
 
     def active_codes(self) -> list[str]:
         return sorted(c for c, d in self._dtcs.items() if d.active)
@@ -70,6 +76,7 @@ class DiagnosticManager:
         return bytes([0x7F, service, nrc])
 
     def handle_request(self, request: bytes) -> bytes:
+        """Answer one UDS request (simplified subset). Always returns a well-formed response."""
         if not request:
             return self._negative(0x00, NRC_INCORRECT_LENGTH)
         sid = request[0]

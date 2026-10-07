@@ -3,6 +3,7 @@
 Run:  python -m unittest discover -s labs/lab01_unittest -p "test_lab01*.py" -v
   or: pytest labs/lab01_unittest -v      (pytest runs unittest tests too)
 """
+import dataclasses
 import unittest
 
 from autotest.can import CANFrame, Signal, crc8
@@ -63,8 +64,8 @@ class TestCANFrame(unittest.TestCase):
         self.assertEqual(self.frame.dlc, 3)
 
     def test_frame_is_immutable(self):
-        with self.assertRaises(Exception):
-            self.frame.arbitration_id = 0x7FF  # frozen dataclass
+        with self.assertRaises(dataclasses.FrozenInstanceError):   # name the EXACT exception, not Exception
+            self.frame.arbitration_id = 0x7FF
 
     def test_standard_id_limit(self):
         CANFrame(0x7FF)  # last legal id: must not raise

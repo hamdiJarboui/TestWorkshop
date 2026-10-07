@@ -27,6 +27,8 @@ Real ECU software talks to ADCs, buses, NVM and other ECUs. On a CI server none 
 `pytest labs/lab04_test_doubles -v`
 
 ## Exercises — `exercise_lab04.py`
+*Run:* `python course.py exercise 4` — the tests start red (most with a `todo(...)` line: delete it when you start on that test). Hints are in each test's docstring; read them one at a time.
+
 Spy on the alive counter · simulate an `OSError` from the ADC · timeout boundary at 99/101 ms with a fake clock · write 3 sentences on when a mock-based test is *bad*.
 
 ## Debrief

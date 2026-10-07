@@ -9,6 +9,14 @@ make req-report | tail  # traceability matrix, all PASS
 ```
 Keep `solutions/` on an instructor branch. **Without `solutions/` the Lab 13 traceability meta-test is red for REQ-TPMS-001/002** — intended (Exercise 13.1), but tell learners.
 
+## How the student workflow works
+* Learners use `python course.py doctor | labs | lab N | exercise N | progress` (no `make`, no `PYTHONPATH`; `pip install -r requirements.txt` also installs the course library in editable mode).
+* Every exercise test begins with `todo(...)`; deleting it is the learner's "I am starting this" gesture. `progress` counts passing tests per lab.
+* **Lab 8 Exercise 1** asks learners to fix BUG-201/202 in `src/`; afterwards the two strict-xfail markers in the worked test go red *by design* — learners must delete them (see the lab README).
+* **Lab 9** golden tests fail on their first run on purpose (they create the file); tell learners to read it and run again.
+* **Lab 12**: the learner's tests are validated by re-running the mutation tool with the exercise file added (`12/12` and `8/8`).
+* Before a course run, verify the exercises are *completable*: complete a few in a scratch copy (the instructor solutions show how) and run them.
+
 ## Timing and emphasis
 | Lab | Time | Must land | Safe to trim |
 |---|---|---|---|

@@ -10,23 +10,32 @@ monitoring) with Python's **`unittest`** and **`pytest`**.
 * No hardware needed: ECUs, sensors and vehicle dynamics are simulated; a switch shows how the same
   tests would run on a real bench (HIL)
 
-## Quick start
+## Quick start (5 minutes)
 
 ```bash
-python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-
-make fast          # the everyday loop (≈ 3 s)
-make lab N=06      # run one lab verbosely
-pytest labs/lab02_pytest/exercise_lab02.py   # work on an exercise (fails until you finish it)
+python -m venv .venv                        # a private Python environment for the course
+source .venv/bin/activate                   # Windows:  .venv\Scripts\activate
+pip install -r requirements.txt             # pytest, hypothesis, coverage + the course library
+python course.py doctor                     # checks your setup and runs your first tests
 ```
 
-Windows without `make`: run the commands from the [Makefile](Makefile) directly (`python -m pytest ...`).
+Then, for every lab (read its lecture chapter first):
+
+```bash
+python course.py labs            # the list of labs and your progress
+python course.py lab 3           # run the WORKED examples of Lab 3 - read them, then break them
+python course.py exercise 3      # run YOUR exercises of Lab 3 (each starts red with a TODO)
+python course.py progress        # progress bars for all labs
+```
+
+`course.py` works the same on Windows, macOS and Linux (no `make`, no `PYTHONPATH`). Start with
+[Lab 0](labs/lab00_setup/README.md). Developers who prefer `make`: `make fast`, `make lab N=06` (see the [Makefile](Makefile)).
 
 ## Course map
 
 | # | Lab (read its lecture first) | Testing type / technique | Main tools | Automotive case |
 |---|-----|--------------------------|-----------|-----------------|
+| 0 | [Setup and first tests](labs/lab00_setup/README.md) | Getting started | `pytest`, `course.py` | a speed conversion |
 | 1 | [unittest fundamentals](labs/lab01_unittest/README.md) — [Ch. 4](course/lecture_04_unittest.md) | **Unit testing** | `unittest.TestCase`, `subTest`, `setUp`, `assertRaises` | CAN frames, CRC-8, unit conversions, wheel-speed maths |
 | 2 | [pytest fundamentals](labs/lab02_pytest/README.md) — [Ch. 5](course/lecture_05_pytest.md) | Unit testing, fixtures, data-driven | `assert`, `parametrize`, fixtures, `tmp_path`, markers | Temperature sensor, BMS fault detection |
 | 3 | [Black-box test design](labs/lab03_black_box/README.md) — [Ch. 6](course/lecture_06_test_design.md) | **Equivalence classes, boundary values, decision tables** | `parametrize`, invariants | Battery charge-current derating |
@@ -64,6 +73,7 @@ src/autotest/        the software under test (the "ECU code")
   ecu.py          wheel-speed ECU + cluster       vehicle.py    longitudinal vehicle model
   diagnostics.py  DTC debouncing + UDS-lite        tpms.py       capstone SUT
   clock.py        SystemClock / FakeClock
+course.py            one command for everything: doctor, labs, lab N, exercise N, progress
 course/               17 lecture chapters, glossary, reading list (code examples verified)
 labs/labNN_*/        README.md · worked tests (test_*.py) · exercise_labNN.py
 capstone/            TPMS specification, starter suite, defect-injection grader

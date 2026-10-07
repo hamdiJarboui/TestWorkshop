@@ -13,7 +13,7 @@ import tracemalloc
 
 import pytest
 
-from autotest.can import CANFrame, CANMessage, Signal, crc8, e2e_check, e2e_protect
+from autotest.can import CANMessage, Signal, crc8, e2e_check, e2e_protect
 from autotest.cruise import CruiseController
 from autotest.ecu import WHEEL_SPEED_MSG
 

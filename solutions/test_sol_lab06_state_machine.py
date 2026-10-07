@@ -31,7 +31,7 @@ TABLE = {
     "active":   (S.ACTIVE,  S.OFF, S.ACTIVE,   S.ACTIVE,   S.STANDBY, S.OVERRIDE, S.ACTIVE),
     "override": (S.OVERRIDE, S.OFF, S.ACTIVE,  S.OVERRIDE, S.STANDBY, S.OVERRIDE, S.ACTIVE),
 }
-CASES = [(st, ev, nxt) for st, row in TABLE.items() for ev, nxt in zip(EVENTS, row)]
+CASES = [(st, ev, nxt) for st, row in TABLE.items() for ev, nxt in zip(EVENTS, row, strict=True)]
 
 
 @pytest.mark.parametrize("state, event, expected", CASES, ids=[f"{s}-{e}" for s, e, _ in CASES])

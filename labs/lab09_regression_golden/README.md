@@ -31,6 +31,8 @@ setting DTC U0100: the CRC-failed frame did not advance the expected alive count
 `test_bug_130_…`. Revert the fix (3 lines) and 3 tests go red — try it.
 
 ## Exercises — `exercise_lab09.py`
+*Run:* `python course.py exercise 9` — the tests start red (most with a `todo(...)` line: delete it when you start on that test). Hints are in each test's docstring; read them one at a time.
+
 Triage BUG-120 (reproduce first — the report may be wrong!) · golden transcript of a UDS session · mutate the log and read the diff.
 
 ## Debrief

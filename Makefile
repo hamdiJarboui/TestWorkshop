@@ -1,7 +1,7 @@
 PY ?= python3
 PYTEST = $(PY) -m pytest
 
-.PHONY: check-course pdf install test fast smoke unit-unittest all performance slow coverage mutation capstone req-report lab solutions clean
+.PHONY: lint progress check-course pdf install test fast smoke unit-unittest all performance slow coverage mutation capstone req-report lab solutions clean
 
 install:            ## install course dependencies
 	$(PY) -m pip install -r requirements.txt
@@ -42,6 +42,12 @@ lab:                ## run one lab, e.g.  make lab N=05
 solutions:          ## instructor solutions + reference capstone score
 	$(PYTEST) solutions -q
 	$(PY) capstone/grade.py --tests solutions/test_sol_capstone_tpms.py --min-score 100
+
+lint:               ## static checks (needs: pip install ruff)
+	ruff check --select F,E9,B .
+
+progress:           ## exercise progress per lab
+	$(PY) course.py progress
 
 check-course:       ## run every verified code example in course/*.md
 	$(PY) tools/check_course_code.py

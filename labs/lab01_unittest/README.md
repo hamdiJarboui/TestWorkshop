@@ -23,7 +23,7 @@ tests; run tests from the CLI, as a hand-built suite, or through pytest.
 
 ## Run it
 ```bash
-PYTHONPATH=src python -m unittest discover -s labs/lab01_unittest -p "test_lab01*.py" -v
+python -m unittest discover -s labs/lab01_unittest -p "test_lab01*.py" -v     # (needs `pip install -r requirements.txt`; otherwise prefix with PYTHONPATH=src)
 pytest labs/lab01_unittest -v          # same tests, pytest runner
 ```
 
@@ -39,6 +39,8 @@ pytest labs/lab01_unittest -v          # same tests, pytest runner
 **Try this (5 min):** in `can.py` change `& 0xFF` in `crc8` to `& 0x7F`. Which tests fail, and which do *not*? What does that tell you about the suite?
 
 ## Exercises — `exercise_lab01.py`
+*Run:* `python course.py exercise 1` — the tests start red (most with a `todo(...)` line: delete it when you start on that test). Hints are in each test's docstring; read them one at a time.
+
 1. Coulomb counting in `BatteryManagementSystem.update_soc`: clamping, discharge, invalid input.
 2. Encode/decode a two-signal engine message — work out the expected bytes **by hand first**.
 3. E2E protection: round trip, corruption, counter wrap.

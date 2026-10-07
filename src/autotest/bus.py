@@ -26,13 +26,15 @@ class VirtualCANBus:
         self._fault_hooks.clear()
 
     def send(self, frame: CANFrame) -> bool:
+        """Put a frame on the bus. Returns False if a fault hook dropped it. Always logs the ORIGINAL frame."""
         self.log.append(frame)
-        current: Optional[CANFrame] = frame
-        for hook in self._fault_hooks:
-            current = hook(current)  # type: ignore[arg-type]
-            if current is None:
-                return False
+        delivered = frame
+        for hook in self._fault_hooks:         # each hook may corrupt the frame or drop it
+            result = hook(delivered)
+            if result is None:
+                return False                # frame lost on the bus: nobody receives it
+            delivered = result
         for listener, ids in self._listeners:
-            if ids is None or current.arbitration_id in ids:
-                listener(current)
+            if ids is None or delivered.arbitration_id in ids:
+                listener(delivered)
         return True

@@ -36,6 +36,8 @@ pytest labs/lab07_property_based --hypothesis-seed=0       # reproduce a CI fail
   The fix — generate the *delta* directly — is the rule: **generate valid data; don't filter invalid data**.
 
 ## Exercises — `exercise_lab07.py`
+*Run:* `python course.py exercise 7` — the tests start red (most with a `todo(...)` line: delete it when you start on that test). Hints are in each test's docstring; read them one at a time.
+
 Properties of `slip_ratio` · DTC debouncer vs a reference model · a `st.builds(CANFrame, ...)` strategy.
 
 ## Debrief

@@ -34,6 +34,8 @@ pytest --durations=10                     # the suite's own slowest tests
 The instructor solutions demonstrate both (ratio > 3 before, < 3 after; bounded deque).
 
 ## Exercises — `exercise_lab10.py`
+*Run:* `python course.py exercise 10` — the tests start red (most with a `todo(...)` line: delete it when you start on that test). Hints are in each test's docstring; read them one at a time.
+
 Scaling test + monotonic-deque fix · `tracemalloc` + bounded log · a `budget(seconds)` context manager.
 
 ## Debrief

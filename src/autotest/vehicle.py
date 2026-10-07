@@ -19,6 +19,10 @@ class Vehicle:
     rho: float = 1.2                  # air density
 
     def step(self, throttle: float, dt: float, grade: float = 0.0, brake_force: float = 0.0) -> float:
+        """Advance by `dt` s. `grade` is rise/run (0.05 = 5 % hill). Returns the new speed in km/h.
+
+        Newton: m*dv/dt = drive - drag - rolling - slope - brake.
+        """
         throttle = min(1.0, max(0.0, throttle))
         drag = 0.5 * self.rho * self.cd_a * self.speed_ms ** 2
         rolling = self.crr * self.mass * G if self.speed_ms > 0 else 0.0

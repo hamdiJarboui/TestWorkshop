@@ -13,7 +13,11 @@ class E2EStatus(enum.Enum):
 
 
 def crc8(data: bytes, poly: int = 0x1D, init: int = 0xFF, xor_out: int = 0xFF) -> int:
-    """CRC-8 SAE J1850 (the AUTOSAR E2E profile 1 polynomial)."""
+    """CRC-8 SAE J1850 (the polynomial used by AUTOSAR E2E profile 1).
+
+    Bitwise algorithm: XOR each byte into the register, then shift 8 times, XOR-ing in the
+    polynomial whenever the top bit falls out. Catalogue check value: crc8(b"123456789") == 0x4B.
+    """
     crc = init
     for byte in data:
         crc ^= byte
@@ -31,9 +35,10 @@ class CANFrame:
     def __post_init__(self) -> None:
         limit = 0x1FFFFFFF if self.is_extended else 0x7FF
         if not 0 <= self.arbitration_id <= limit:
-            raise ValueError(f"arbitration id 0x{self.arbitration_id:X} out of range")
+            kind = "extended (29-bit)" if self.is_extended else "standard (11-bit)"
+            raise ValueError(f"arbitration id 0x{self.arbitration_id:X} out of range for {kind} frames (max 0x{limit:X})")
         if len(self.data) > 8:
-            raise ValueError("classic CAN carries at most 8 data bytes")
+            raise ValueError(f"classic CAN carries at most 8 data bytes, got {len(self.data)}")
 
     @property
     def dlc(self) -> int:
@@ -55,9 +60,9 @@ class Signal:
 
     def __post_init__(self) -> None:
         if not 1 <= self.length <= 64 or self.start_bit < 0:
-            raise ValueError("invalid signal geometry")
+            raise ValueError(f"signal {self.name}: invalid geometry (start_bit={self.start_bit}, length={self.length}; length must be 1..64)")
         if self.factor == 0:
-            raise ValueError("factor must not be zero")
+            raise ValueError(f"signal {self.name}: factor must not be zero")
 
     def raw_range(self) -> tuple[int, int]:
         if self.signed:
@@ -65,6 +70,9 @@ class Signal:
         return 0, (1 << self.length) - 1
 
     def to_raw(self, physical: float) -> int:
+        """physical value -> integer raw value (rounded to the nearest step), with range checks."""
+        if physical != physical:                      # NaN is the only float not equal to itself
+            raise ValueError(f"{self.name}: value is not a number (NaN)")
         if self.minimum is not None and physical < self.minimum:
             raise ValueError(f"{self.name}: {physical} below minimum {self.minimum}")
         if self.maximum is not None and physical > self.maximum:
@@ -81,7 +89,10 @@ class Signal:
 
 @dataclass(frozen=True)
 class CANMessage:
-    """Message definition: a frame id, a payload length and its signals."""
+    """Message definition: a frame id, a payload length (dlc) and its signals.
+
+    `encode` / `decode` convert between {signal name: physical value} and payload bytes.
+    """
 
     frame_id: int
     name: str
@@ -90,7 +101,7 @@ class CANMessage:
 
     def __post_init__(self) -> None:
         if not 0 <= self.dlc <= 8:
-            raise ValueError("dlc must be 0..8")
+            raise ValueError(f"message {self.name}: dlc must be 0..8, got {self.dlc}")
         for s in self.signals:
             if s.start_bit + s.length > self.dlc * 8:
                 raise ValueError(f"signal {s.name} does not fit in {self.dlc} bytes")
@@ -121,6 +132,7 @@ class CANMessage:
 # ---- End-to-end protection: [crc8][counter][payload...] -------------------
 
 def e2e_protect(payload: bytes, counter: int) -> bytes:
+    """Wire format: [crc8][counter 0..15][payload...]; the CRC covers counter + payload."""
     counter &= 0x0F
     body = bytes([counter]) + payload
     return bytes([crc8(body)]) + body

@@ -29,6 +29,8 @@ python tools/mini_mutate.py --target src/autotest/bms.py --function max_charge_c
 ```
 
 ## Exercises — `exercise_lab03.py`
+*Run:* `python course.py exercise 3` — the tests start red (most with a `todo(...)` line: delete it when you start on that test). Hints are in each test's docstring; read them one at a time.
+
 BVA for the six fault limits of `evaluate`, a priority decision table for simultaneous faults, and the "spec is silent" case (empty list) — decide, justify, and log the question.
 
 ## Debrief

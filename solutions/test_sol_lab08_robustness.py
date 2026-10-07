@@ -3,8 +3,7 @@ import math
 
 import pytest
 
-from autotest.bms import BatteryManagementSystem, max_charge_current
-from autotest.bus import VirtualCANBus
+from autotest.bms import max_charge_current
 from autotest.ecu import DTC_COMM_LOST, InstrumentCluster, WheelSpeedECU
 from autotest.sensors import SensorFault, TemperatureSensor
 

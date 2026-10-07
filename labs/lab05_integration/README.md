@@ -32,6 +32,8 @@ pytest labs/lab05_integration -m smoke        # a single, fastest end-to-end che
 > Integration tests are where such cross-component sequencing defects hide.
 
 ## Exercises — `exercise_lab05.py`
+*Run:* `python course.py exercise 5` — the tests start red (most with a `todo(...)` line: delete it when you start on that test). Hints are in each test's docstring; read them one at a time.
+
 Add a third node (data logger) · seeded random bit-flips on 1 in 5 frames · a contract test that fails if the scale factor changes.
 
 ## Debrief

@@ -94,7 +94,7 @@ def test_duplicate_frames_are_rejected_by_alive_counter(clock):
     ecu.send_speed(50)
     duplicate = bus.log[-1]
     bus.send(duplicate)                      # replayed frame, same counter
-    assert cluster.diag._dtcs["U0100"].fail_count == 1
+    assert cluster.diag.failure_count("U0100") == 1
 
 
 # ---- 3. fuzzing the diagnostic interface: random bytes in, SANE bytes out ----------------
