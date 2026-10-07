@@ -82,6 +82,8 @@ conftest.py          shared fixtures (clock, bus, golden), --hil / --update-gold
 
 ## Reference
 
+* [pdf/](pdf/) — the whole course as a printable **Course Book** (learners) and **Instructor Edition**; rebuild with `make pdf`
+
 * [docs/cheatsheet.md](docs/cheatsheet.md) — unittest ↔ pytest side-by-side, useful flags, marker recipes
 * [docs/instructor_guide.md](docs/instructor_guide.md) — timing, answers, seeded defects, common misconceptions
 * [docs/requirements.csv](docs/requirements.csv) — the requirement set used for traceability
