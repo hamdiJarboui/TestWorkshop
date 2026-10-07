@@ -1,0 +1,23 @@
+[project]
+name = "autotest-course"
+version = "1.0.0"
+description = "Testing with Python: unittest, pytest and automotive case studies"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "."]
+testpaths = ["labs", "solutions"]
+addopts = "-ra --strict-markers --import-mode=importlib"
+markers = [
+    "smoke: fast sanity checks run first on every commit",
+    "integration: several components working together",
+    "system: end-to-end / closed-loop behaviour",
+    "regression: guards a previously fixed defect or golden output",
+    "performance: timing / throughput budgets",
+    "robustness: negative, fault-injection and fuzz tests",
+    "sil: software-in-the-loop simulation",
+    "hil: needs real hardware (skipped unless --hil is given)",
+    "requirement(id): links a test to a requirement ID for traceability",
+    "exercise: student exercise skeleton (expected to fail until completed)",
+    "slow: spawns subprocesses; deselect with -m \"not slow\"",
+]

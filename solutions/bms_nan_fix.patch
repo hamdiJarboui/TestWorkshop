@@ -1,0 +1,46 @@
+--- a/src/autotest/bms.py
++++ b/src/autotest/bms.py
+@@ -2,6 +2,7 @@
+ from __future__ import annotations
+ 
+ import enum
++import math
+ 
+ 
+ class BMSFault(enum.Enum):
+@@ -24,6 +25,8 @@
+     """
+     if not 0 <= soc <= 100:
+         raise ValueError("soc must be within 0..100")
++    if math.isnan(temp_c):
++        raise ValueError("temperature is not a number")
+     if temp_c < 0 or temp_c > 45:
+         return 0.0
+     limit = rated_a * (0.25 if temp_c < 10 else 1.0)
+@@ -49,6 +52,8 @@
+     def evaluate(self, cell_voltages: list[float], temp_c: float) -> BMSFault:
+         if not cell_voltages:
+             raise ValueError("no cell data")
++        if math.isnan(temp_c) or any(math.isnan(v) for v in cell_voltages):
++            raise ValueError("NaN measurement")
+         if max(cell_voltages) > self.CELL_V_MAX:
+             return BMSFault.OVERVOLTAGE
+         if min(cell_voltages) < self.CELL_V_MIN:
+--- a/labs/lab08_robustness/test_lab08_robustness.py
++++ b/labs/lab08_robustness/test_lab08_robustness.py
+@@ -130,7 +130,6 @@
+     assert max_charge_current(50, bad) == 0.0
+ 
+ 
+-@pytest.mark.xfail(strict=True, reason="BUG-201: NaN temperature falls through every comparison -> FULL charge current")
+ def test_nan_temperature_must_not_allow_charging():
+     try:
+         current = max_charge_current(50, math.nan)
+@@ -139,7 +138,6 @@
+     assert current == 0.0
+ 
+ 
+-@pytest.mark.xfail(strict=True, reason="BUG-202: NaN cell voltage is never > max or < min -> reported healthy")
+ def test_nan_cell_voltage_must_raise_a_fault_or_error():
+     try:
+         fault = BatteryManagementSystem().evaluate([3.7, math.nan, 3.7], 25)

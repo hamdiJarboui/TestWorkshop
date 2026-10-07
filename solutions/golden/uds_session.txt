@@ -1,0 +1,5 @@
+read DTCs        19 02 ff  ->  59 02 55 30 31 32 31 3b
+read VIN         22 f1 90  ->  62 f1 90 57 41 55 5a 5a 5a 38 4b 39 42 41 31 32 33 34 35 36
+clear DTCs       14 ff ff ff  ->  54
+read DTCs again  19 02 ff  ->  59 02
+unknown service  3e 00  ->  7f 3e 11

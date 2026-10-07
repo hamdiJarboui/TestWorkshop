@@ -1,0 +1,56 @@
+name: course-ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      # Stage 1 - fastest feedback first (test pyramid: smoke -> unit/integration -> slow)
+      - name: Smoke
+        run: pytest -m smoke -q
+
+      - name: Standard-library runner still works (unittest)
+        run: PYTHONPATH=src python -m unittest discover -s labs/lab01_unittest -p "test_lab01*.py"
+
+      # Stage 2 - main suite with coverage and a JUnit report for the CI UI
+      - name: Unit, integration, system, robustness, regression
+        run: >
+          pytest -m "not slow and not performance"
+          --cov=autotest --cov-branch --cov-report=xml --cov-report=term-missing
+          --junitxml=report.xml -q
+
+      # Stage 3 - timing budgets run alone so they are not disturbed by parallel work
+      - name: Performance budgets
+        run: pytest -m performance -q
+
+      # Stage 4 - tests of the tests
+      - name: Mutation meta-tests
+        run: pytest -m slow -q
+      - name: Reference capstone suite catches every seeded defect
+        run: python capstone/grade.py --tests solutions/test_sol_capstone_tpms.py --min-score 100
+
+      - name: Requirement traceability matrix
+        run: pytest labs solutions -m "not slow" -q --req-report | tee traceability.txt
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reports-py${{ matrix.python }}
+          path: |
+            report.xml
+            coverage.xml
+            traceability.txt

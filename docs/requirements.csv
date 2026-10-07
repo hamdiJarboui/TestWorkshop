@@ -1,0 +1,17 @@
+id,component,text
+REQ-CAN-001,CAN,A frame shall reject arbitration ids outside the 11-bit (standard) or 29-bit (extended) range.
+REQ-CAN-002,CAN,Signal encode followed by decode shall reproduce the physical value within one resolution step.
+REQ-CAN-003,CAN,Receivers shall reject frames whose CRC or alive counter is invalid.
+REQ-BMS-001,BMS,Charging shall be inhibited below 0 degC and above 45 degC.
+REQ-BMS-002,BMS,Charge current shall taper linearly to zero between 80 % and 100 % SOC.
+REQ-BMS-003,BMS,Any cell above 4.20 V shall raise an overvoltage fault.
+REQ-CC-001,Cruise,Cruise control shall only engage between 30 and 180 km/h.
+REQ-CC-002,Cruise,Pressing the brake shall cancel cruise control immediately.
+REQ-CC-003,Cruise,Throttle output shall be zero unless cruise control is active.
+REQ-ABS-001,ABS,With ABS the wheel shall not lock while vehicle speed is above 5 m/s.
+REQ-ABS-002,ABS,ABS shall shorten the stopping distance compared with locked-wheel braking on the reference surface.
+REQ-DIAG-001,Diagnostics,A DTC shall be confirmed only after N consecutive failed debounce cycles.
+REQ-DIAG-002,Diagnostics,Unsupported diagnostic services shall be answered with negative response code 0x11.
+REQ-CLU-001,Cluster,The cluster shall display "--" when no valid speed frame arrived for 100 ms.
+REQ-TPMS-001,TPMS,A tyre below 60 % of nominal pressure (normalised to 20 degC) shall be classified CRITICAL.
+REQ-TPMS-002,TPMS,A pressure drop of 20 kPa or more within a 60 s window shall raise a rapid-loss alarm.
