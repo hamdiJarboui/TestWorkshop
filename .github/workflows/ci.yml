@@ -43,6 +43,8 @@ jobs:
       - name: Reference capstone suite catches every seeded defect
         run: python capstone/grade.py --tests solutions/test_sol_capstone_tpms.py --min-score 100
 
+      - name: Lecture code examples are executable and correct
+        run: python tools/check_course_code.py
       - name: Requirement traceability matrix
         run: pytest labs solutions -m "not slow" -q --req-report | tee traceability.txt
 

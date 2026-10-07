@@ -1,5 +1,7 @@
 # Lab 9 — Regression, golden-file and log-replay testing
 
+> **Read first:** Chapter 12 — *Regression testing, golden files and replay* (`course/lecture_12_regression_testing.md`).
+
 **Duration:** 2.5 h · **Type:** regression / snapshot / replay · **Code under test:** `InstrumentCluster`, `DiagnosticManager`
 
 ## Why it matters

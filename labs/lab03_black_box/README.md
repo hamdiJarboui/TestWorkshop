@@ -1,5 +1,7 @@
 # Lab 3 — Black-box test design
 
+> **Read first:** Chapter 6 — *Designing tests from a specification* (`course/lecture_06_test_design.md`).
+
 **Duration:** 2.5 h · **Type:** specification-based testing · **Code under test:** `bms.max_charge_current`, `BatteryManagementSystem.evaluate`
 
 ## Why it matters

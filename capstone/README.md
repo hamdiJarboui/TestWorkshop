@@ -1,5 +1,7 @@
 # Capstone — Tyre-Pressure Monitoring bug hunt
 
+> **Read first:** Chapter 17 — *Putting it all together* (`course/lecture_17_putting_it_together.md`).
+
 **Duration:** 4–6 h (individual or pairs) · **Uses:** every technique from Labs 1–13
 
 ## Scenario

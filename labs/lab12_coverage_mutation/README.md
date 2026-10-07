@@ -1,5 +1,7 @@
 # Lab 12 — Test adequacy: coverage and mutation testing
 
+> **Read first:** Chapter 15 — *Test adequacy: coverage and mutation testing* (`course/lecture_15_test_adequacy.md`).
+
 **Duration:** 2.5 h · **Type:** tests of the tests · **Tools:** `pytest-cov`, `tools/mini_mutate.py`
 
 ## Why it matters

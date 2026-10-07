@@ -26,9 +26,11 @@ On completion a learner can:
 ## 3. Schedule
 
 ### Intensive — 5 days × 7 h (≈ 35 h)
+Each lab below is preceded by its lecture chapter (Chapters 4–16 pair with Labs 1–13 in order; Chapter 17 introduces the capstone).
+
 | Day | Morning (3.5 h) | Afternoon (3.5 h) |
 |-----|----------------|-------------------|
-| 1 | Test pyramid & vocabulary (30 min) · **Lab 1** unittest | **Lab 2** pytest |
+| 1 | Chapters 1–3 foundations (1.5 h) · Ch. 4 + **Lab 1** unittest | Ch. 5 + **Lab 2** pytest |
 | 2 | **Lab 3** black-box design | **Lab 4** doubles · start **Lab 5** |
 | 3 | Finish **Lab 5** integration · **Lab 6** state machines | **Lab 7** property-based |
 | 4 | **Lab 8** robustness · **Lab 9** regression | **Lab 10** performance (short) · **Lab 11** SIL |
@@ -38,6 +40,7 @@ On completion a learner can:
 W1 L1 · W2 L2 · W3 L3 · W4 L4+L5 (part) · W5 L5+L6 · W6 L7 · W7 L8 · W8 L9+L10 · W9 L11+L12 · W10 L13 + capstone review. Capstone is homework from W7.
 
 ## 4. Pedagogy
+0. **Lecture, then lab.** Each lab is preceded by a lecture chapter (`course/`, 30–60 min of reading or teaching) that explains the concepts, techniques and automotive background; Chapters 1–3 are foundations (testing vocabulary, the landscape of test types/levels, an automotive primer). Every code example in the lectures is executed by `tools/check_course_code.py`, so the text cannot drift from the code.
 1. **One system under test for the whole course.** Learners meet the same library again and again, so effort goes into *testing technique*, not into learning new code. Later labs build on earlier ones (Lab 3's suite is the input of Lab 12's mutation run; Lab 9's replay exposes a defect that integration tests in Lab 5 missed).
 2. **Worked example → break it → exercise → debrief.** Every worked test file is commented teaching material; every lab README has a "Try this" mutation to build the intuition that *a test is only as good as the defect it would catch*.
 3. **Real defects, not only contrived ones.** Four findings were discovered while *building* the course and are kept in as case studies: BUG-130 (a bit error costs two frames — Lab 9), BUG-201/202 (NaN falls through every safety comparison — Lab 8), a redundant `soc >= 100` guard revealed by mutation analysis (Lab 12), and an O(window) leak detector (Lab 10). Other ticket numbers (BUG-087, 093, 114, 120) are teaching scenarios.

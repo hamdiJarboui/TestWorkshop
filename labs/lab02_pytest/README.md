@@ -1,5 +1,7 @@
 # Lab 2 — pytest fundamentals
 
+> **Read first:** Chapter 5 — *pytest: concise, powerful tests* (`course/lecture_05_pytest.md`).
+
 **Duration:** 3 h · **Type:** unit testing, data-driven testing · **Code under test:** `sensors.py`, `bms.py`, `can.py`
 
 ## Why pytest

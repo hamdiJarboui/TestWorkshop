@@ -1,5 +1,7 @@
 # Lab 6 — State-transition and system-level testing
 
+> **Read first:** Chapter 9 — *State-based and system-level testing* (`course/lecture_09_state_and_system_testing.md`).
+
 **Duration:** 3 h · **Type:** state-based testing, functional/system testing · **Code under test:** `CruiseController`
 
 ## Why it matters

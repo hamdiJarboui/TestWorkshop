@@ -1,7 +1,7 @@
 PY ?= python3
 PYTEST = $(PY) -m pytest
 
-.PHONY: pdf install test fast smoke unit-unittest all performance slow coverage mutation capstone req-report lab solutions clean
+.PHONY: check-course pdf install test fast smoke unit-unittest all performance slow coverage mutation capstone req-report lab solutions clean
 
 install:            ## install course dependencies
 	$(PY) -m pip install -r requirements.txt
@@ -42,6 +42,9 @@ lab:                ## run one lab, e.g.  make lab N=05
 solutions:          ## instructor solutions + reference capstone score
 	$(PYTEST) solutions -q
 	$(PY) capstone/grade.py --tests solutions/test_sol_capstone_tpms.py --min-score 100
+
+check-course:       ## run every verified code example in course/*.md
+	$(PY) tools/check_course_code.py
 
 pdf:                ## build pdf/*.pdf (needs pandoc + Chromium)
 	$(PY) tools/build_pdf.py

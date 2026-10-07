@@ -54,7 +54,9 @@ def test_cruise_control_step_meets_its_10ms_cycle_with_big_margin():
 
 # ---- 2. throughput: can we keep up with a saturated 500 kbit/s bus? ---------------------------
 def test_decoder_keeps_up_with_a_saturated_500kbit_bus():
-    """A bus at 500 kbit/s carries at most ~4 500 frames/s (111-bit worst-case frame)."""
+    """A 500 kbit/s bus carries at most ~4 500 eight-byte frames/s: 111 bits per frame including
+    intermission, BEFORE bit stuffing. Stuffing only lengthens frames (worst case ~135 bits,
+    ~3 700 frames/s), so 4 500 is a safe upper bound for the decoder to keep up with."""
     frames = [e2e_protect(WHEEL_SPEED_MSG.encode({"speed_kmh": i % 300, "valid": 1}), i) for i in range(4500)]
     t0 = time.perf_counter()
     for i, raw in enumerate(frames):

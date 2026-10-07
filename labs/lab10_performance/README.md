@@ -1,5 +1,7 @@
 # Lab 10 — Performance and real-time budget testing
 
+> **Read first:** Chapter 13 — *Performance, timing and resource testing* (`course/lecture_13_performance_and_realtime.md`).
+
 **Duration:** 2.5 h · **Type:** performance / timing / memory · **Code under test:** `CruiseController.control`, codec, `LeakDetector`, `VirtualCANBus`
 
 ## Why it matters

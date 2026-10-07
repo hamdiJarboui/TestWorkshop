@@ -1,5 +1,7 @@
 # Lab 11 — Software-in-the-loop (SIL) simulation and acceptance criteria
 
+> **Read first:** Chapter 14 — *Simulation, closed-loop testing and acceptance criteria* (`course/lecture_14_simulation_and_sil.md`).
+
 **Duration:** 3 h · **Type:** closed-loop system testing / model-based testing · **Code under test:** `CruiseController` + `Vehicle`, `ABSController` + `QuarterCar`
 
 ## Why it matters

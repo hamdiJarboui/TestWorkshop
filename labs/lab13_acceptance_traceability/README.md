@@ -1,5 +1,7 @@
 # Lab 13 — Acceptance tests, requirements traceability and SIL/HIL switching
 
+> **Read first:** Chapter 16 — *Requirements, traceability, standards and continuous integration* (`course/lecture_16_requirements_traceability_ci.md`).
+
 **Duration:** 3 h · **Type:** acceptance / requirements-based testing · **Artefacts:** `docs/requirements.csv`, `--req-report`
 
 ## Why it matters

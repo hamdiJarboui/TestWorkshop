@@ -1,5 +1,7 @@
 # Lab 7 — Property-based testing with Hypothesis
 
+> **Read first:** Chapter 10 — *Property-based testing and fuzzing* (`course/lecture_10_property_based_and_fuzz.md`).
+
 **Duration:** 3 h · **Type:** generative testing · **Code under test:** signal codec, E2E, `max_charge_current`
 
 ## Why it matters

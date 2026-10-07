@@ -1,5 +1,7 @@
 # Lab 5 — Integration testing
 
+> **Read first:** Chapter 8 — *Integration testing: where components meet* (`course/lecture_08_integration_testing.md`).
+
 **Duration:** 3 h · **Type:** integration / interface / contract testing · **Code under test:** `WheelSpeedECU → VirtualCANBus → InstrumentCluster`
 
 ## Why it matters

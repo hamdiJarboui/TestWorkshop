@@ -1,5 +1,7 @@
 # Lab 1 — Unit testing with `unittest`
 
+> **Read first:** Chapter 4 — *unittest: the standard library's test framework* (`course/lecture_04_unittest.md`).
+
 **Duration:** 2.5 h · **Type:** unit testing · **Code under test:** `can.py`, `sensors.py`, `bms.py`
 
 ## Why it matters in a vehicle programme

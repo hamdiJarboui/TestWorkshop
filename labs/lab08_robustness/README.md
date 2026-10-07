@@ -1,5 +1,7 @@
 # Lab 8 — Robustness: negative testing, fault injection and fuzzing
 
+> **Read first:** Chapter 11 — *Robustness and fault injection* (`course/lecture_11_robustness_and_fault_injection.md`).
+
 **Duration:** 3 h · **Type:** robustness / fault-injection / fuzz · **Code under test:** sensor, bus, cluster, `DiagnosticManager.handle_request`, BMS
 
 ## Why it matters

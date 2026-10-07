@@ -1,5 +1,7 @@
 # Lab 4 — Test doubles: isolating the unit
 
+> **Read first:** Chapter 7 — *Isolating the unit: testability and test doubles* (`course/lecture_07_test_doubles.md`).
+
 **Duration:** 2.5 h · **Type:** isolation techniques · **Code under test:** `TemperatureSensor`, `InstrumentCluster`, `WheelSpeedECU`
 
 ## Why it matters
