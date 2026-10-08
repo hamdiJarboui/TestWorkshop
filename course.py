@@ -28,7 +28,7 @@ ENV = {**os.environ, "PYTHONPATH": f"{ROOT / 'src'}{os.pathsep}{ROOT}"}   # work
 
 def run(*args: str, quiet: bool = False) -> subprocess.CompletedProcess:
     cmd = [sys.executable, *args]
-    return subprocess.run(cmd, cwd=ROOT, env=ENV, capture_output=quiet, text=True)
+    return subprocess.run(cmd, cwd=ROOT, env=ENV, capture_output=quiet, text=True, encoding="utf-8", errors="replace")
 
 
 def pytest(*args: str, quiet: bool = False) -> subprocess.CompletedProcess:

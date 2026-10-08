@@ -5,6 +5,7 @@ the report shows PASS/FAIL per requirement:
 
     pytest labs --req-report -q
 """
+import ast
 import csv
 import re
 import subprocess
@@ -19,7 +20,8 @@ from autotest.diagnostics import DiagnosticManager
 from autotest.sensors import TemperatureSensor
 
 ROOT = Path(__file__).resolve().parents[2]
-REQUIREMENTS = {row["id"]: row for row in csv.DictReader((ROOT / "docs" / "requirements.csv").open())}
+with (ROOT / "docs" / "requirements.csv").open(encoding="utf-8", newline="") as _f:   # closed promptly (no ResourceWarning)
+    REQUIREMENTS = {row["id"]: row for row in csv.DictReader(_f)}
 
 
 # =============================================================================================
@@ -84,14 +86,28 @@ class TestFeatureDtcDebouncing:
 # =============================================================================================
 # B. Traceability checks - the test suite tests its own documentation
 # =============================================================================================
+def _requirements_cited_by_finished_exercise(path):
+    """Exercise files: a marked test only counts once the learner has deleted its `todo(...)` stub."""
+    cited = set()
+    for node in ast.walk(ast.parse(path.read_text(encoding="utf-8"))):
+        if isinstance(node, ast.FunctionDef) and node.name.startswith("test_"):
+            is_stub = any(isinstance(n, ast.Call) and getattr(n.func, "id", "") == "todo" for n in ast.walk(node))
+            for deco in node.decorator_list:
+                if not is_stub and isinstance(deco, ast.Call) and getattr(deco.func, "attr", "") == "requirement":
+                    cited.add(deco.args[0].value)
+    return cited
+
+
 def _markers_in_repo():
     found = {}
     pattern = re.compile(r'mark\.requirement\("(REQ-[A-Z]+-\d{3})"\)')
     for folder in ("labs", "solutions"):
         for path in (ROOT / folder).rglob("*.py"):
-            if path.name.startswith("exercise_"):
-                continue
-            for req in pattern.findall(path.read_text()):
+            if path.name.startswith("exercise_"):          # unfinished stubs must not count as evidence
+                reqs = _requirements_cited_by_finished_exercise(path)
+            else:
+                reqs = pattern.findall(path.read_text(encoding="utf-8"))
+            for req in reqs:
                 found.setdefault(req, set()).add(path.name)
     return found
 
@@ -99,7 +115,12 @@ def _markers_in_repo():
 def test_every_requirement_is_verified_by_at_least_one_test():
     verified = _markers_in_repo()
     missing = sorted(set(REQUIREMENTS) - set(verified))
-    assert not missing, f"requirements without a verifying test: {missing}"
+    assert not missing, (
+        f"requirements without a verifying test: {missing}\n"
+        "  -> If these are REQ-TPMS-*, this is EXPECTED until you do Exercise 1 of Lab 13 "
+        "(python course.py exercise 13): write tests carrying @pytest.mark.requirement(...) and this goes green.\n"
+        "  -> Otherwise a requirement in docs/requirements.csv has no test: add one."
+    )
 
 
 def test_no_test_refers_to_an_unknown_requirement():
@@ -110,7 +131,7 @@ def test_no_test_refers_to_an_unknown_requirement():
 def test_requirement_report_option_prints_a_matrix():
     r = subprocess.run(
         [sys.executable, "-m", "pytest", "labs/lab05_integration", "-q", "--req-report", "-p", "no:cacheprovider"],
-        cwd=ROOT, capture_output=True, text=True,
+        cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace",
     )
     assert r.returncode == 0, r.stdout
     assert "REQ-CLU-001" in r.stdout and "PASS" in r.stdout
@@ -155,6 +176,6 @@ def test_hil_tests_are_skipped_without_the_flag(pytestconfig):
         pytest.skip("running with --hil: this check only applies to the default run")
     r = subprocess.run(
         [sys.executable, "-m", "pytest", __file__, "-q", "-rs", "-p", "no:cacheprovider", "-k", "mid_scale"],
-        cwd=ROOT, capture_output=True, text=True,
+        cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace",
     )
     assert "needs hardware" in r.stdout

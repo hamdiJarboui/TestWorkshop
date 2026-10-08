@@ -33,3 +33,7 @@ markers = [
     "exercise: student exercise skeleton (expected to fail until completed)",
     "slow: spawns subprocesses; deselect with -m \"not slow\"",
 ]
+
+[tool.coverage.run]
+# the exercise helper is course scaffolding, not part of the system under test
+omit = ["*/autotest/learn.py"]

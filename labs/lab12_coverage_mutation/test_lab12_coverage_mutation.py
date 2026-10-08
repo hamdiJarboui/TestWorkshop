@@ -20,7 +20,7 @@ def mutation_score(tests: str) -> tuple[int, int, str]:
     out = subprocess.run(
         [sys.executable, str(ROOT / "tools" / "mini_mutate.py"),
          "--target", "src/autotest/bms.py", "--function", "max_charge_current", "--tests", tests],
-        cwd=ROOT, capture_output=True, text=True, timeout=300,
+        cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=300,
     ).stdout
     line = next(l for l in out.splitlines() if l.startswith("mutation score"))
     killed, total = line.split(":")[1].split("=")[0].strip().split("/")
@@ -48,10 +48,12 @@ def test_coverage_report_for_bms_is_complete_for_the_weak_suite(tmp_path):
     r = subprocess.run(
         [sys.executable, "-m", "pytest", "labs/lab12_coverage_mutation/weak_suite.py", "-q",
          "--cov=autotest.bms", "--cov-branch", f"--cov-report=json:{report}", "-p", "no:cacheprovider"],
-        cwd=ROOT, capture_output=True, text=True,
+        cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace",
     )
     assert r.returncode == 0, r.stdout
-    data = json.loads(report.read_text())["files"]["src/autotest/bms.py"]
+    files = json.loads(report.read_text(encoding="utf-8"))["files"]
+    # report keys use the OS path separator, so match on the normalised tail
+    data = next(v for k, v in files.items() if k.replace("\\", "/").endswith("src/autotest/bms.py"))
     lines, first = inspect.getsourcelines(max_charge_current)
     inside = set(range(first, first + len(lines)))
     # The weak suite never touches the BatteryManagementSystem class (expected). What matters is

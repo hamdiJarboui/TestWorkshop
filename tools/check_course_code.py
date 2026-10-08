@@ -41,7 +41,7 @@ def main() -> int:
                 script.write_text(code, encoding="utf-8")
                 cmd = ([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider", "--rootdir", tmp, str(script)]
                        if kind == "pytest" else [sys.executable, str(script)])
-                r = subprocess.run(cmd, cwd=tmp, capture_output=True, text=True, env=env)
+                r = subprocess.run(cmd, cwd=tmp, capture_output=True, text=True, encoding="utf-8", errors="replace", env=env)
                 if r.returncode:
                     failed += 1
                     print(f"FAIL {f.name}:{line} ({kind})\n{(r.stdout + r.stderr)[-1500:]}")

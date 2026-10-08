@@ -4,7 +4,7 @@ A hands-on course in which you learn **every major kind of software testing** by
 automotive code (CAN bus, battery management, cruise control, ABS, diagnostics, tyre-pressure
 monitoring) with Python's **`unittest`** and **`pytest`**.
 
-* **17 lecture chapters** (concepts, techniques, automotive background — every code example is executed by a checker), **13 labs** and a capstone "bug hunt" (≈ 35 contact hours; see [COURSE_DESIGN.md](COURSE_DESIGN.md))
+* **17 lecture chapters** (concepts, techniques, automotive background — every code example is executed by a checker), **13 labs** (plus a Lab 0 setup lab) and a capstone "bug hunt" (≈ 35 contact hours; see [COURSE_DESIGN.md](COURSE_DESIGN.md))
 * Every lab: concept → fully worked, runnable examples → exercises → debrief questions
 * A verified instructor solution for every exercise (`solutions/`), executed in CI
 * No hardware needed: ECUs, sensors and vehicle dynamics are simulated; a switch shows how the same

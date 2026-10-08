@@ -7,3 +7,8 @@ htmlcov/
 coverage.xml
 report.xml
 .venv/
+*.egg-info/
+build/
+dist/
+.ruff_cache/
+.DS_Store

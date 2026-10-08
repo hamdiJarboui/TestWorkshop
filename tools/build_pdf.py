@@ -123,7 +123,7 @@ def cover(kicker: str) -> str:
 <div class="kicker">{kicker}</div>
 <h1>{TITLE}</h1>
 <div class="sub">{SUBTITLE}</div>
-<div class="meta">17 lecture chapters · 13 labs · capstone · glossary · self-check answers<br>
+<div class="meta">17 lecture chapters · Lab 0 + 13 labs · capstone · glossary · self-check answers<br>
 Unit · Integration · System · Property-based · Robustness · Regression · Performance · Simulation · Mutation · Acceptance<br>
 Python 3.10+ · pytest · unittest · Hypothesis · built {today}</div>
 </section>"""
@@ -199,7 +199,7 @@ def render(name: str, kicker: str, instructor: bool) -> Path:
             "pandoc", str(tmp / "book.md"), "-f", "gfm+attributes", "-t", "html5", "--standalone",
             "--template", str(ROOT / "tools/pdf/template.html"), "--toc", "--toc-depth=2",
             "--highlight-style=pygments", "--metadata", f"pagetitle={TITLE}",
-            "-V", f"styles={(ROOT / 'tools/pdf/style.css').read_text()}",
+            "-V", f"styles={(ROOT / 'tools/pdf/style.css').read_text(encoding='utf-8')}",
             "--include-before-body", str(tmp / "cover.html"), "-o", str(html)], check=True)
         pdf = OUT / name
         subprocess.run([find_chrome(), "--headless=new", "--no-sandbox", "--disable-gpu", "--no-pdf-header-footer",

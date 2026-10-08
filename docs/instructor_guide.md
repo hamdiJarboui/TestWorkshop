@@ -88,5 +88,19 @@ Review the *tests*, not only the score: a suite that asserts `True` after callin
 | duplicate test module names | the repo uses `--import-mode=importlib`; keep unique names anyway |
 
 ## Verifying a change to the course
-`make solutions && make fast && make performance && make slow` — all four must be green; then
-`python capstone/grade.py` must still report 0/17 for the starter and 17/17 for the reference.
+Run all of these; each must be green:
+
+```bash
+make lint            # ruff: unused imports, blind excepts, ...
+make solutions       # instructor solutions + reference capstone score must be 17/17
+make fast && make performance && make slow
+make check-course    # every executable example in the lecture chapters
+python capstone/grade.py        # the starter suite must still score 0/17
+```
+
+Built-in safeguards that fail loudly when the course drifts:
+* `solutions/test_sol_patch_applies.py` fails if `solutions/bms_nan_fix.patch` stops applying (it is skipped once the fix has been applied). If you change `src/autotest/bms.py` or the Lab 8 worked test, **regenerate the patch**: apply the fix in a scratch copy, delete the two `xfail(strict=True)` markers, run the suite, then `diff -u` the two files.
+* The Lab 13 traceability meta-test only counts an exercise test as verification once its `todo(...)` stub is gone, so students can turn it green by doing Exercise 13.1.
+* `tools/mini_mutate.py` exits 0 normally; use `--strict` to make surviving mutants a CI failure.
+
+Also worth doing before a course run: complete the exercises in a scratch copy (see "How the student workflow works") and confirm `python course.py progress` reaches 100 %, then run the suite once **without** the `solutions/` folder, as a learner would have it (exactly one failure is expected until Exercise 13.1 is done).

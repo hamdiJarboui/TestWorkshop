@@ -46,11 +46,11 @@ def golden(request):
         path = base / name
         if update or not path.exists():
             base.mkdir(exist_ok=True)
-            path.write_text(actual)
+            path.write_text(actual, encoding="utf-8")
             if not update:
                 pytest.fail(f"golden file {path} did not exist - created it; re-run to verify")
             return
-        assert actual == path.read_text(), f"output differs from {path.name}; inspect, then --update-golden"
+        assert actual == path.read_text(encoding="utf-8"), f"output differs from {path.name}; inspect, then --update-golden"
 
     return check
 

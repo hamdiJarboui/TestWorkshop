@@ -33,8 +33,8 @@ In this course the link is a custom pytest **marker**:
 import pytest
 
 @pytest.mark.requirement("REQ-CLU-001")
-def test_cluster_blanks_after_100ms_without_frames(...):
-    ...
+def test_cluster_blanks_after_100ms_without_frames(bus, clock):
+    ...                      # arrange / act / assert go here
 ```
 
 and a small plugin in `conftest.py` collects the markers and prints a matrix (`pytest --req-report`):

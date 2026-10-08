@@ -60,7 +60,7 @@ def replay(path: Path):
     clock, bus = FakeClock(), VirtualCANBus()
     cluster = InstrumentCluster(bus, clock)
     seen = []
-    for line in path.read_text().splitlines():
+    for line in path.read_text(encoding="utf-8").splitlines():
         t, can_id, data = line.split()
         clock.advance(float(t) - clock.now())
         bus.send(CANFrame(int(can_id, 16), bytes.fromhex(data)))

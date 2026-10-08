@@ -20,3 +20,12 @@ def test_invalid_input_path_is_executed_too():
         max_charge_current(101, 25)
     except ValueError:
         pass                         # executed, never verified that the right error is raised
+
+
+def test_nan_input_path_is_executed_too():
+    # Before the Lab 8 fix this simply returns a number; after it, a ValueError is raised.
+    # Either way the lines are EXECUTED (coverage) and nothing is actually verified (weak!).
+    try:
+        max_charge_current(50, float("nan"))
+    except ValueError:
+        pass

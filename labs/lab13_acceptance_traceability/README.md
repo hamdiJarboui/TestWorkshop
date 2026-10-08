@@ -15,7 +15,9 @@ run the same test body on a simulator and (optionally) on hardware.
 
 ## The mechanism (see `conftest.py`)
 ```python
-@pytest.mark.requirement("REQ-BMS-003")      # on a test, class or module (pytestmark)
+@pytest.mark.requirement("REQ-BMS-003")      # on a test, a class, or a whole module (pytestmark)
+def test_one_weak_cell_raises_an_overvoltage_fault():
+    ...
 ```
 * `pytest --req-report` prints each requirement → PASS/FAIL with its tests.
 * Meta-tests scan the repository: every ID in `docs/requirements.csv` needs ≥ 1 verifying test; every marker must cite a known ID.

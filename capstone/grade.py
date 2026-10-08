@@ -55,18 +55,18 @@ def main() -> int:
         shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns(
             ".git", "__pycache__", ".pytest_cache", ".hypothesis", "htmlcov", ".coverage"))
         target = work / TARGET
-        original = target.read_text()
+        original = target.read_text(encoding="utf-8")
         if not run_tests(work, [args.tests], 120):
             print("Your tests FAIL on the correct implementation - fix your tests first.")
             return 2
         caught = 0
         for did, symptom, old, new in DEFECTS:
             assert old in original, f"grader out of date: {did}"
-            target.write_text(original.replace(old, new, 1))
+            target.write_text(original.replace(old, new, 1), encoding="utf-8")
             killed = not run_tests(work, [args.tests], 120)
             caught += killed
             print(f"  {did} {'caught  ' if killed else 'MISSED  '} {symptom if not killed else ''}")
-        target.write_text(original)
+        target.write_text(original, encoding="utf-8")
     score = 100 * caught / len(DEFECTS)
     print(f"\ndefects caught: {caught}/{len(DEFECTS)} = {score:.0f} %")
     return 0 if score >= args.min_score else 1

@@ -57,7 +57,7 @@ On any failure the receiver must not use the data and typically falls back to a 
 
 ## 3.2 Diagnostics: DTCs and UDS
 
-When an ECU detects a fault it stores a **diagnostic trouble code (DTC)**, e.g. `U0121` (lost communication with the ABS module; the letter gives the domain: **P**owertrain, **C**hassis, **B**ody, **U**ser network). To avoid false alarms, a fault must usually persist for several monitoring cycles before the DTC is *confirmed* — **debouncing**. After enough healthy cycles the DTC stops being *active* but stays *stored* as history until a technician clears it.
+When an ECU detects a fault it stores a **diagnostic trouble code (DTC)**, e.g. `U0121` (lost communication with the ABS module; the letter gives the domain: **P**owertrain, **C**hassis, **B**ody, **U** (network / communication)). To avoid false alarms, a fault must usually persist for several monitoring cycles before the DTC is *confirmed* — **debouncing**. After enough healthy cycles the DTC stops being *active* but stays *stored* as history until a technician clears it.
 
 A workshop tester talks to the ECU using **UDS** (Unified Diagnostic Services, ISO 14229). Requests start with a service id; a **positive response** adds `0x40` to it; a **negative response** is `0x7F <service> <code>`:
 

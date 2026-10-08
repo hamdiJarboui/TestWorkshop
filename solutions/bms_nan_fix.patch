@@ -1,6 +1,6 @@
 --- a/src/autotest/bms.py
 +++ b/src/autotest/bms.py
-@@ -2,6 +2,7 @@
+@@ -6,6 +6,7 @@
  from __future__ import annotations
  
  import enum
@@ -8,21 +8,21 @@
  
  
  class BMSFault(enum.Enum):
-@@ -24,6 +25,8 @@
+@@ -30,6 +31,8 @@
      """
      if not 0 <= soc <= 100:
-         raise ValueError("soc must be within 0..100")
+         raise ValueError(f"soc must be within 0..100 percent, got {soc}")
 +    if math.isnan(temp_c):
-+        raise ValueError("temperature is not a number")
++        raise ValueError("temperature is not a number (NaN): refusing to guess a charge limit")
      if temp_c < 0 or temp_c > 45:
          return 0.0
      limit = rated_a * (0.25 if temp_c < 10 else 1.0)
-@@ -49,6 +52,8 @@
-     def evaluate(self, cell_voltages: list[float], temp_c: float) -> BMSFault:
+@@ -58,6 +61,8 @@
+         """Return the most severe fault. Priority: over-voltage, under-voltage, over-temp, under-temp."""
          if not cell_voltages:
-             raise ValueError("no cell data")
+             raise ValueError("no cell data: cell_voltages is empty")
 +        if math.isnan(temp_c) or any(math.isnan(v) for v in cell_voltages):
-+            raise ValueError("NaN measurement")
++            raise ValueError("NaN measurement: an unknown value must never be reported as healthy")
          if max(cell_voltages) > self.CELL_V_MAX:
              return BMSFault.OVERVOLTAGE
          if min(cell_voltages) < self.CELL_V_MIN:

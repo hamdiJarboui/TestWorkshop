@@ -25,5 +25,5 @@ for i, speed in enumerate(profile):
     t += 0.01
     if i == 9:                       # recorded gap: 250 ms bus silence
         t += 0.25
-out.write_text("\n".join(lines) + "\n")
+out.write_text("\n".join(lines) + "\n", encoding="utf-8")
 print(f"wrote {out} ({len(lines)} frames)")

@@ -4,7 +4,11 @@
 Idea: coverage tells you which lines RAN; mutation testing tells you whether your
 assertions would NOTICE if the line were wrong. We make one small change (a "mutant")
 to the code under test, run the tests, and expect them to FAIL ("kill" the mutant).
-A mutant that survives points at a missing or weak assertion.
+A mutant that survives points at a missing or weak assertion (or is an "equivalent mutant":
+changed code, identical behaviour, which no test can kill).
+
+Exit status: 0 normally (survivors are information, not an error), 1 with --strict if any survive,
+2 if the unmutated code already fails the tests.
 
 Example
     python tools/mini_mutate.py --target src/autotest/bms.py --function max_charge_current \
@@ -97,11 +101,13 @@ def main() -> int:
     ap.add_argument("--tests", nargs="+", required=True, help="test files / dirs to run")
     ap.add_argument("--timeout", type=int, default=60)
     ap.add_argument("--list", action="store_true", help="only list mutation sites")
+    ap.add_argument("--strict", action="store_true",
+                    help="exit with status 1 if any mutant survives (for CI gates; survivors can be equivalent mutants)")
     args = ap.parse_args()
 
     root = Path(__file__).resolve().parents[1]
     target = root / args.target
-    tree = ast.parse(target.read_text())
+    tree = ast.parse(target.read_text(encoding="utf-8"))
     probe = Mutator(-1, args.function)
     probe.visit(copy.deepcopy(tree))
     print(f"{len(probe.sites)} mutants in {args.target}" + (f"::{args.function}" if args.function else ""))
@@ -121,7 +127,7 @@ def main() -> int:
         survivors = []
         for i, (line, desc) in enumerate(probe.sites):
             m = Mutator(i, args.function)
-            mutated_file.write_text(ast.unparse(m.visit(copy.deepcopy(tree))))
+            mutated_file.write_text(ast.unparse(m.visit(copy.deepcopy(tree))), encoding="utf-8")
             killed = not run_tests(work, args.tests, args.timeout)
             print(f"  #{i:02d} line {line:>3} {desc:<28} {'killed' if killed else 'SURVIVED'}")
             if not killed:
@@ -131,7 +137,7 @@ def main() -> int:
         print(f"\nmutation score: {total - len(survivors)}/{total} = {score:.0f} %")
         for i, line, desc in survivors:
             print(f"  survivor #{i:02d} (line {line}): {desc}  -> which assertion should have failed?")
-        return 0 if not survivors else 1
+        return 1 if (survivors and args.strict) else 0
 
 
 if __name__ == "__main__":
